@@ -39,10 +39,18 @@ kube-system   kube-scheduler-kube-master                 1/1       Running      
 
 ## Networking
 
-Each virtual machine has the default NAT interface, and a private network shared between them. To expose services later we have a few options:
+Each virtual machine has:
+
+* The default NAT interface (10.0.2.0/24). This is used internally by Vagrant, and is where the nodes get Internet connection.
+* A private network (172.31.99.0/24) shared between them. This is where the nodes communicate with each other.
+* Calico uses pod network (192.168.0.0/16) by default so that is what we passed to `kubeadm` during init.
+
+To expose services later we have a few options:
 
 * Have a new public network interface to access from outside of the private network
 * Create a load balancer within the private network to handle connections to and from the public network
+
+Also, we might change kubeapi to listen to all interfaces (0.0.0.0) so that we can access it using `kubectl` from outside of the cluster.
 
 ## What's Included
 
@@ -56,7 +64,7 @@ Each virtual machine has the default NAT interface, and a private network shared
 
 ## Customizations
 
-Change `num_instances` in `Vagrantfile` to have mode nodes in the cluster.
+Change `num_instances` in `Vagrantfile` to have more nodes in the cluster.
 
 ```
 # Size of the cluster created by Vagrant
