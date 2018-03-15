@@ -1,6 +1,6 @@
 # Fun with Kubernetes
 
-Purpose: Single node examples and minikube doesn't reflect real multi-node Kubernetes environments. It'd be fun and useful to have a multi-node environment to study and run test on, to emulate real world setup.
+Purpose: Single node examples and minikube do not reflect real multi-node Kubernetes environments. It'd be fun and useful to have a multi-node environment to study and run test on, to emulate real world setup.
 
 Let's launch a local Kubernetes cluster on Ubuntu 16.04. Requirements:
 
@@ -55,10 +55,13 @@ Also, we might change kubeapi to listen to all interfaces (0.0.0.0) so that we c
 ## What's Included
 
 * Network plugin with default configuration - [Calico](https://www.projectcalico.org/calico-networking-for-kubernetes/)
+* Package manager - [Helm](https://helm.sh)
 
-## Future Plan
+Why helm? It organizes manifests very well, instead of using individual manifests. If you don't want helm just comment the whole block which is marked by `# Install and initialize helm` in [provisioning_scripts/master.sh](provisioning_scripts/master.sh) but you won't be able to use the helm charts provided here when they are completed later.
 
-* [Helm](https://helm.sh) charts
+## TODO
+
+* Helm charts
   * Ingress controller
   * Sample services (i.e. web, nginx)
 
