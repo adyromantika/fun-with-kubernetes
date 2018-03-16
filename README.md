@@ -63,9 +63,18 @@ Why helm? It organizes manifests very well, instead of using individual manifest
 
 ### Traefik ingress controller
 
+First, customize the file "charts/traefik-ingress/values.yaml" according to needs. There are comments in the `values.yaml` that provides some understanding of the values.
+
 ```
 cd charts
 helm upgrade traefik-ingress traefik-ingress/ -i -f traefik-ingress/values.yaml --namespace kube-system
+```
+
+If you prefer having a separate values.yaml file, this can be achieved by adding more `-f` parameters. The values are overriden by the file that is specified last. Example:
+
+```
+cd charts
+helm upgrade traefik-ingress traefik-ingress/ -i -f traefik-ingress/values.yaml -f /path/to/custom.yaml --namespace kube-system
 ```
 
 ## TODO
