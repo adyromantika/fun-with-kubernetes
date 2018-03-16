@@ -19,3 +19,9 @@ controller:
   # Whether to listen on node IP or be assigned a pod IP
   # Listening on node would however, means that only one pod can be scheduled on a node.
   hostNetwork: false
+
+service:
+  # Valid types: ClusterIP, NodePort, LoadBalancer, ExternalName
+  # https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services---service-types
+  # With service type NodePort, a port is assigned on the nodes to listen to connections, and a cluster IP is also assigned
+  serviceType: NodePort
