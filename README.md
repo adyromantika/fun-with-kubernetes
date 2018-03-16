@@ -59,11 +59,19 @@ Also, we might change kubeapi to listen to all interfaces (0.0.0.0) so that we c
 
 Why helm? It organizes manifests very well, instead of using individual manifests. If you don't want helm just comment the whole block which is marked by `# Install and initialize helm` in [provisioning_scripts/master.sh](provisioning_scripts/master.sh) but you won't be able to use the helm charts provided here when they are completed later.
 
+## Installation
+
+### Traefik ingress controller
+
+```
+cd charts
+helm upgrade traefik-ingress traefik-ingress/ -i -f traefik-ingress/values.yaml --namespace kube-system
+```
+
 ## TODO
 
 * Helm charts
-  * Ingress controller
-  * Sample services (i.e. web, nginx)
+  * Sample services (i.e. web, redis)
 
 ## Customizations
 
