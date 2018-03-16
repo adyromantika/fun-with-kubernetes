@@ -70,8 +70,7 @@ helm upgrade traefik-ingress traefik-ingress/ -i -f traefik-ingress/values.yaml 
 
 ## TODO
 
-* Helm charts
-  * Sample services (i.e. web, redis)
+Add services (i.e. web, redis)
 
 ## Customizations
 
