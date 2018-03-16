@@ -18,6 +18,8 @@ vagrant up
 With the default `num_instances`, when Vagrant is done provisioning all virtual machines, we get something like this:
 
 ```
+user@host-machine:~$ vagrant ssh kube-master
+
 vagrant@kube-master:~$ kubectl get pod --all-namespaces -o wide
 NAMESPACE     NAME                                       READY     STATUS              RESTARTS   AGE       IP                NODE
 kube-system   calico-etcd-4hcsl                          1/1       Running             0          6h        172.31.99.10      kube-master
@@ -66,16 +68,20 @@ Why helm? It organizes manifests very well, instead of using individual manifest
 First, customize the file "charts/traefik-ingress/values.yaml" according to needs. There are comments in the `values.yaml` that provides some understanding of the values.
 
 ```
-cd charts
+vagrant ssh kube-master
+cd /vagrant/charts
 helm upgrade traefik-ingress traefik-ingress/ -i -f traefik-ingress/values.yaml --namespace kube-system
 ```
 
 If you prefer having a separate values.yaml file, this can be achieved by adding more `-f` parameters. The values are overriden by the file that is specified last. Example:
 
 ```
-cd charts
+vagrant ssh kube-master
+cd /vagrant/charts
 helm upgrade traefik-ingress traefik-ingress/ -i -f traefik-ingress/values.yaml -f /path/to/custom.yaml --namespace kube-system
 ```
+
+For now, those need to be executed on `kube-master`.
 
 ## TODO
 
