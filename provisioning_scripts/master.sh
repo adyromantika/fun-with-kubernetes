@@ -20,7 +20,7 @@ cp -i /etc/kubernetes/admin.conf /home/vagrant/.kube/config
 chown 1000:1000 /home/vagrant/.kube/config
 
 # Copy join command to shared folder to be used by workers
-cat /home/vagrant/kubeadm.log | grep 'kubeadm join' > /vagrant/provisioning_scripts/join.sh
+tail -2 /home/vagrant/kubeadm.log > /vagrant/provisioning_scripts/join.sh
 
 # Install network plugin
 kubectl apply -f https://docs.projectcalico.org/v3.0/getting-started/kubernetes/installation/hosted/kubeadm/1.7/calico.yaml
