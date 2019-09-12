@@ -23,12 +23,11 @@ chown 1000:1000 /home/vagrant/.kube/config
 tail -2 /home/vagrant/kubeadm.log > /vagrant/provisioning_scripts/join.sh
 
 # Install network plugin
-kubectl apply -f https://docs.projectcalico.org/v3.0/getting-started/kubernetes/installation/hosted/kubeadm/1.7/calico.yaml
+kubectl apply -f https://docs.projectcalico.org/v3.9/manifests/calico.yaml
 
 # Install and initialize helm
-curl https://raw.githubusercontent.com/kubernetes/helm/master/scripts/get | bash
-helm init
+curl -L https://git.io/get_helm.sh | bash
 kubectl create serviceaccount --namespace kube-system tiller
 kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
 kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
-helm init --service-account tiller --upgrade
+helm init --service-account tiller
