@@ -1,6 +1,6 @@
 {{- if eq .Values.controller.deploy.type "deployment" -}}
 kind: Deployment
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 metadata:
   name: {{ template "traefik-ingress.name" . }}-controller
   namespace: kube-system

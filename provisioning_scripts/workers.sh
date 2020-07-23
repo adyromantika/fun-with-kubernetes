@@ -3,7 +3,7 @@
 NODE_IP=$1
 
 # Change node IP to private network then reload kubelet
-sed -iE "s/KUBELET_NETWORK_ARGS=/KUBELET_NETWORK_ARGS=--node-ip=${NODE_IP}\ /" /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+echo "KUBELET_EXTRA_ARGS=\"--node-ip=${NODE_IP}\"" >> /etc/default/kubelet
 systemctl daemon-reload
 systemctl restart kubelet
 

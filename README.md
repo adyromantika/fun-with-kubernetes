@@ -9,7 +9,7 @@ Let's launch a local Kubernetes cluster on Ubuntu 16.04. Requirements:
 
 ## Quick Start
 
-```
+```shell
 git glone https://github.com/adyromantika/fun-with-kubernetes
 cd fun-with-kubernetes
 vagrant up
@@ -17,7 +17,7 @@ vagrant up
 
 With the default `num_instances`, when Vagrant is done provisioning all virtual machines, we get something like this:
 
-```
+```shell
 user@host-machine:~$ vagrant ssh kube-master
 
 vagrant@kube-master:~$ kubectl get pod --all-namespaces -o wide
@@ -67,7 +67,7 @@ Why helm? It organizes manifests very well, instead of using individual manifest
 
 First, customize the file "charts/traefik-ingress/values.yaml" according to needs. There are comments in the `values.yaml` that provides some understanding of the values.
 
-```
+```shell
 vagrant ssh kube-master
 cd /vagrant/charts
 helm upgrade traefik-ingress traefik-ingress/ -i -f traefik-ingress/values.yaml --namespace kube-system
@@ -75,7 +75,7 @@ helm upgrade traefik-ingress traefik-ingress/ -i -f traefik-ingress/values.yaml 
 
 If you prefer having a separate values.yaml file, this can be achieved by adding more `-f` parameters. The values are overriden by the file that is specified last. Example:
 
-```
+```shell
 vagrant ssh kube-master
 cd /vagrant/charts
 helm upgrade traefik-ingress traefik-ingress/ -i -f traefik-ingress/values.yaml -f /path/to/custom.yaml --namespace kube-system
@@ -91,7 +91,15 @@ Add services (i.e. web, redis)
 
 Change `num_instances` in `Vagrantfile` to have more nodes in the cluster.
 
-```
+```ruby
 # Size of the cluster created by Vagrant
 num_instances=3
 ```
+
+# Changelog
+
+* 23 July 2020:
+  * Changed Vagrant box to Bionic Beaver (18.04). Focal Fossa has trouble with Vagrant at the moment (a known bug)
+  * Modify apiVersion for deployment of Traefik ingress in the Helm chart template
+  * Update Docker [as recommended by Kubernetes](https://kubernetes.io/docs/setup/production-environment/container-runtimes/#docker)
+  * Update method of passing node IP variable to kubernetes startup script
