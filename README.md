@@ -52,7 +52,7 @@ To expose services later we have a few options:
 * Have a new public network interface to access from outside of the private network
 * Create a load balancer within the private network to handle connections to and from the public network
 
-The `kube-apiserver` is listening on all interfaces by default (0.0.0.0) so that we can access it using `kubectl` from the host by specifying the endpoint `https://172.31.199.10:6443`. The file `~/.kube/config` from `kube-master` can be used on the host machine directly if you have `kubectl` installed on the host.
+The `kube-apiserver` is listening on all interfaces by default (0.0.0.0) so that we can access it using `kubectl` from the **host** by specifying the endpoint `https://172.31.199.10:6443`. The file `~/.kube/config` from `kube-master` can be used on the host machine directly .
 
 ## What's Included
 
