@@ -2,7 +2,7 @@
 
 Purpose: Single node examples and minikube do not reflect real multi-node Kubernetes environments. It'd be fun and useful to have a multi-node environment to study and run test on, to emulate real world setup.
 
-Let's launch a local Kubernetes cluster on Ubuntu 16.04. Requirements:
+Let's launch a local Kubernetes cluster on Ubuntu 18.04. Requirements:
 
 * [Vagrant](https://www.vagrantup.com/)
 * [Virtualbox](https://www.virtualbox.org/)
@@ -43,8 +43,8 @@ kube-system   kube-scheduler-kube-master                 1/1       Running      
 
 Each virtual machine has:
 
-* The default NAT interface (10.0.2.0/24). This is used internally by Vagrant, and is where the nodes get Internet connection.
-* A private network (172.31.99.0/24) shared between them. This is where the nodes communicate with each other.
+* The default NAT interface (10.0.2.0/24). This is created automatically by VirtualBox, and is where the nodes get Internet connection (default route).
+* A private network (172.31.99.0/24) shared between them. This is where the nodes communicate with each other, as well with the VirtualBox host.
 * Calico uses pod network (192.168.0.0/16) by default so that is what we passed to `kubeadm` during init.
 
 To expose services later we have a few options:
@@ -52,7 +52,7 @@ To expose services later we have a few options:
 * Have a new public network interface to access from outside of the private network
 * Create a load balancer within the private network to handle connections to and from the public network
 
-Also, we might change kubeapi to listen to all interfaces (0.0.0.0) so that we can access it using `kubectl` from outside of the cluster.
+The `kube-apiserver` is listening on all interfaces by default (0.0.0.0) so that we can access it using `kubectl` from the host by specifying the endpoint `https://172.31.199.10:6443`. The file `~/.kube/config` from `kube-master` can be used on the host machine directly if you have `kubectl` installed on the host.
 
 ## What's Included
 
@@ -61,7 +61,7 @@ Also, we might change kubeapi to listen to all interfaces (0.0.0.0) so that we c
 
 Why helm? It organizes manifests very well, instead of using individual manifests. If you don't want helm just comment the whole block which is marked by `# Install and initialize helm` in [provisioning_scripts/master.sh](provisioning_scripts/master.sh) but you won't be able to use the helm charts provided here when they are completed later.
 
-## Installation
+## Installations
 
 ### Traefik ingress controller
 
@@ -81,8 +81,6 @@ cd /vagrant/charts
 helm upgrade traefik-ingress traefik-ingress/ -i -f traefik-ingress/values.yaml -f /path/to/custom.yaml --namespace kube-system
 ```
 
-For now, those need to be executed on `kube-master`.
-
 ## TODO
 
 Add services (i.e. web, redis)
@@ -96,7 +94,7 @@ Change `num_instances` in `Vagrantfile` to have more nodes in the cluster.
 num_instances=3
 ```
 
-# Changelog
+## Changelog
 
 * 23 July 2020:
   * Changed Vagrant box to Bionic Beaver (18.04). Focal Fossa has trouble with Vagrant at the moment (a known bug)
