@@ -9,7 +9,6 @@ network_prefix = "172.31.99."
 
 Vagrant.configure("2") do |config|
   config.vm.box = "ubuntu/bionic64"
-  # config.vm.box = "bento/ubuntu-16.04"
   config.vm.provision "shell", path: "provisioning_scripts/common.sh"
 
   # Launch kube-master

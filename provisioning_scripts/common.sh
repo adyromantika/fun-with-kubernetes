@@ -6,23 +6,25 @@ echo deb http://apt.kubernetes.io/ kubernetes-xenial main > /etc/apt/sources.lis
 
 # Install packages
 apt-get update
-apt-get install -y apt-transport-https kubelet kubeadm kubectl kubernetes-cni \
-  ca-certificates curl software-properties-common gnupg2
+apt-get install -y apt-transport-https ca-certificates curl software-properties-common gnupg2 \
+  kubelet=1.22.0-00 \
+  kubeadm=1.22.0-00 \
+  kubectl=1.22.0-00 \
+  kubernetes-cni=0.8.7-00
 
 # Add Docker’s official GPG key
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 
 # Add the Docker apt repository
-add-apt-repository \
-  "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) \
-  stable"
+echo \
+  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 # Install Docker CE
 apt-get update && apt-get install -y \
-  containerd.io=1.2.13-2 \
-  docker-ce=5:19.03.11~3-0~ubuntu-$(lsb_release -cs) \
-  docker-ce-cli=5:19.03.11~3-0~ubuntu-$(lsb_release -cs)
+  containerd.io=1.4.9-1 \
+  docker-ce=5:20.10.8~3-0~ubuntu-$(lsb_release -cs) \
+  docker-ce-cli=5:20.10.8~3-0~ubuntu-$(lsb_release -cs)
 
 # Set up the Docker daemon
 cat > /etc/docker/daemon.json <<EOF

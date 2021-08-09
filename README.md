@@ -2,10 +2,15 @@
 
 Purpose: Single node examples and minikube do not reflect real multi-node Kubernetes environments. It'd be fun and useful to have a multi-node environment to study and run test on, to emulate real world setup.
 
-Let's launch a local Kubernetes cluster on Ubuntu 18.04. Requirements:
+Let's launch a local Kubernetes. Requirements:
 
 * [Vagrant](https://www.vagrantup.com/)
 * [Virtualbox](https://www.virtualbox.org/)
+
+## End Results
+
+* Ubuntu 18.04 machines (bionic64)
+* Kubernetes 1.22
 
 ## Quick Start
 
@@ -13,6 +18,8 @@ Let's launch a local Kubernetes cluster on Ubuntu 18.04. Requirements:
 git glone https://github.com/adyromantika/fun-with-kubernetes
 cd fun-with-kubernetes
 vagrant up
+vagrant ssh kube-master
+kubectl get pod -A
 ```
 
 With the default `num_instances`, when Vagrant is done provisioning all virtual machines, we get something like this:
@@ -95,6 +102,11 @@ num_instances=3
 ```
 
 ## Changelog
+
+* 10 August 2021:
+  * Lock Kubernetes package versions to ensure compatibility
+  * Update Docker package versions
+  * Update changed api endpoints in kubernetes 1.22 for traefik chart 
 
 * 23 July 2020:
   * Changed Vagrant box to Bionic Beaver (18.04). Focal Fossa has trouble with Vagrant at the moment (a known bug)
