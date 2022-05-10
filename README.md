@@ -27,23 +27,26 @@ With the default `num_instances`, when Vagrant is done provisioning all virtual 
 ```shell
 user@host-machine:~$ vagrant ssh kube-master
 
-vagrant@kube-master:~$ kubectl get pod --all-namespaces -o wide
-NAMESPACE     NAME                                       READY     STATUS              RESTARTS   AGE       IP                NODE
-kube-system   calico-etcd-4hcsl                          1/1       Running             0          6h        172.31.99.10      kube-master
-kube-system   calico-kube-controllers-559b575f97-psqsw   1/1       Running             0          6h        172.31.99.10      kube-master
-kube-system   calico-node-6xr7z                          0/2       ContainerCreating   0          25s       172.31.99.13      kube-worker-03
-kube-system   calico-node-fw2m7                          2/2       Running             1          2m        172.31.99.12      kube-worker-02
-kube-system   calico-node-pb84k                          2/2       Running             1          6h        172.31.99.10      kube-master
-kube-system   calico-node-x8j9c                          2/2       Running             1          5m        172.31.99.11      kube-worker-01
-kube-system   etcd-kube-master                           1/1       Running             0          6h        172.31.99.10      kube-master
-kube-system   kube-apiserver-kube-master                 1/1       Running             0          6h        172.31.99.10      kube-master
-kube-system   kube-controller-manager-kube-master        1/1       Running             0          6h        172.31.99.10      kube-master
-kube-system   kube-dns-6f4fd4bdf-gjmds                   3/3       Running             0          6h        192.168.221.193   kube-master
-kube-system   kube-proxy-8dl6v                           1/1       Running             0          6h        172.31.99.10      kube-master
-kube-system   kube-proxy-brpvh                           1/1       Running             0          25s       172.31.99.13      kube-worker-03
-kube-system   kube-proxy-ttn46                           1/1       Running             0          2m        172.31.99.12      kube-worker-02
-kube-system   kube-proxy-vlmkd                           1/1       Running             0          5m        172.31.99.11      kube-worker-01
-kube-system   kube-scheduler-kube-master                 1/1       Running             0          6h        172.31.99.10      kube-master
+vagrant@kube-master:~$ kubectl get pod -A -o wide
+NAMESPACE          NAME                                       READY   STATUS    RESTARTS   AGE     IP                NODE             NOMINATED NODE   READINESS GATES
+calico-apiserver   calico-apiserver-648b858bf9-dwxtk          1/1     Running   0          2m52s   192.168.188.131   kube-worker-01   <none>           <none>
+calico-apiserver   calico-apiserver-648b858bf9-v5vdn          1/1     Running   0          2m52s   192.168.188.130   kube-worker-01   <none>           <none>
+calico-system      calico-kube-controllers-5b544d9b48-zbj77   1/1     Running   0          5m54s   192.168.188.129   kube-worker-01   <none>           <none>
+calico-system      calico-node-c792s                          1/1     Running   0          2m20s   192.168.56.12     kube-worker-02   <none>           <none>
+calico-system      calico-node-k8k8r                          1/1     Running   0          5m54s   192.168.56.10     kube-master      <none>           <none>
+calico-system      calico-node-l7dm5                          1/1     Running   0          4m17s   192.168.56.11     kube-worker-01   <none>           <none>
+calico-system      calico-typha-9f9f75888-kn6xv               1/1     Running   0          5m55s   192.168.56.10     kube-master      <none>           <none>
+calico-system      calico-typha-9f9f75888-lpv7q               1/1     Running   0          2m16s   192.168.56.12     kube-worker-02   <none>           <none>
+kube-system        coredns-6d4b75cb6d-677rj                   1/1     Running   0          6m7s    192.168.221.194   kube-master      <none>           <none>
+kube-system        coredns-6d4b75cb6d-pj697                   1/1     Running   0          6m7s    192.168.221.193   kube-master      <none>           <none>
+kube-system        etcd-kube-master                           1/1     Running   0          6m22s   192.168.56.10     kube-master      <none>           <none>
+kube-system        kube-apiserver-kube-master                 1/1     Running   0          6m22s   192.168.56.10     kube-master      <none>           <none>
+kube-system        kube-controller-manager-kube-master        1/1     Running   0          6m22s   192.168.56.10     kube-master      <none>           <none>
+kube-system        kube-proxy-55rqf                           1/1     Running   0          6m8s    192.168.56.10     kube-master      <none>           <none>
+kube-system        kube-proxy-g8jrw                           1/1     Running   0          4m17s   192.168.56.11     kube-worker-01   <none>           <none>
+kube-system        kube-proxy-sxrfz                           1/1     Running   0          2m20s   192.168.56.12     kube-worker-02   <none>           <none>
+kube-system        kube-scheduler-kube-master                 1/1     Running   0          6m22s   192.168.56.10     kube-master      <none>           <none>
+tigera-operator    tigera-operator-f59987bd5-qrvm5            1/1     Running   0          6m7s    192.168.56.10     kube-master      <none>           <none>
 ```
 
 ## Networking
