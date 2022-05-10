@@ -1,3 +1,4 @@
 .vagrant
 join.sh
 *.log
+.vscode

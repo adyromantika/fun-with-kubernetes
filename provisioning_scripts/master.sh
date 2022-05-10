@@ -19,15 +19,15 @@ mkdir -p /home/vagrant/.kube
 cp -i /etc/kubernetes/admin.conf /home/vagrant/.kube/config
 chown 1000:1000 /home/vagrant/.kube/config
 
+# Copy to default shared directory so that it is easier to get from the host
+cp -i /etc/kubernetes/admin.conf /vagrant/kube_config
+
 # Copy join command to shared folder to be used by workers
 tail -2 /home/vagrant/kubeadm.log > /vagrant/provisioning_scripts/join.sh
 
-# Install network plugin
-kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+# Install helm
+curl -L https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 
-# Install and initialize helm
-curl -L https://git.io/get_helm.sh | bash
-kubectl create serviceaccount --namespace kube-system tiller
-kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
-kubectl patch deploy --namespace kube-system tiller-deploy -p '{"spec":{"template":{"spec":{"serviceAccount":"tiller"}}}}'
-helm init --service-account tiller
+# Install network plugin
+helm repo add projectcalico https://projectcalico.docs.tigera.io/charts
+helm install calico projectcalico/tigera-operator --version v3.22.2

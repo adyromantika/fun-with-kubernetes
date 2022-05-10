@@ -9,8 +9,8 @@ Let's launch a local Kubernetes. Requirements:
 
 ## End Results
 
-* Ubuntu 18.04 machines (bionic64)
-* Kubernetes 1.22
+* Ubuntu 20.04 machines (focal64)
+* Kubernetes 1.24
 
 ## Quick Start
 
@@ -59,38 +59,12 @@ To expose services later we have a few options:
 * Have a new public network interface to access from outside of the private network
 * Create a load balancer within the private network to handle connections to and from the public network
 
-The `kube-apiserver` is listening on all interfaces by default (0.0.0.0) so that we can access it using `kubectl` from the **host** by specifying the endpoint `https://172.31.199.10:6443`. The file `~/.kube/config` from `kube-master` can be used on the host machine directly .
+The `kube-apiserver` is listening on all interfaces by default (0.0.0.0) so that we can access it using `kubectl` from the **host** by specifying the endpoint `https://192.168.56.10:6443`. The file `~/.kube/config` from `kube-master` can be used on the host machine directly .
 
 ## What's Included
 
 * Network plugin with default configuration - [Calico](https://www.projectcalico.org/calico-networking-for-kubernetes/)
 * Package manager - [Helm](https://helm.sh)
-
-Why helm? It organizes manifests very well, instead of using individual manifests. If you don't want helm just comment the whole block which is marked by `# Install and initialize helm` in [provisioning_scripts/master.sh](provisioning_scripts/master.sh) but you won't be able to use the helm charts provided here when they are completed later.
-
-## Installations
-
-### Traefik ingress controller
-
-First, customize the file "charts/traefik-ingress/values.yaml" according to needs. There are comments in the `values.yaml` that provides some understanding of the values.
-
-```shell
-vagrant ssh kube-master
-cd /vagrant/charts
-helm upgrade traefik-ingress traefik-ingress/ -i -f traefik-ingress/values.yaml --namespace kube-system
-```
-
-If you prefer having a separate values.yaml file, this can be achieved by adding more `-f` parameters. The values are overriden by the file that is specified last. Example:
-
-```shell
-vagrant ssh kube-master
-cd /vagrant/charts
-helm upgrade traefik-ingress traefik-ingress/ -i -f traefik-ingress/values.yaml -f /path/to/custom.yaml --namespace kube-system
-```
-
-## TODO
-
-Add services (i.e. web, redis)
 
 ## Customizations
 
@@ -103,10 +77,15 @@ num_instances=3
 
 ## Changelog
 
+* 10 May 2022:
+  * Vagrant box updated to Focal Fossa (20.04)
+  * Update package versions
+  * Use Helm 3 (no more tiller!)
+
 * 10 August 2021:
   * Lock Kubernetes package versions to ensure compatibility
   * Update Docker package versions
-  * Update changed api endpoints in kubernetes 1.22 for traefik chart 
+  * Update changed api endpoints in kubernetes 1.22 for traefik chart
 
 * 23 July 2020:
   * Changed Vagrant box to Bionic Beaver (18.04). Focal Fossa has trouble with Vagrant at the moment (a known bug)

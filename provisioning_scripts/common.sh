@@ -13,13 +13,13 @@ echo \
 # Install packages
 apt-get update
 apt-get install -y apt-transport-https ca-certificates software-properties-common gnupg2 \
-  kubelet=1.22.0-00 \
-  kubeadm=1.22.0-00 \
-  kubectl=1.22.0-00 \
+  kubelet=1.24.0-00 \
+  kubeadm=1.24.0-00 \
+  kubectl=1.24.0-00 \
   kubernetes-cni=0.8.7-00 \
-  containerd.io=1.4.9-1 \
-  docker-ce=5:20.10.8~3-0~ubuntu-$(lsb_release -cs) \
-  docker-ce-cli=5:20.10.8~3-0~ubuntu-$(lsb_release -cs)
+  containerd.io=1.6.4-1 \
+  docker-ce=5:20.10.15~3-0~ubuntu-$(lsb_release -cs) \
+  docker-ce-cli=5:20.10.15~3-0~ubuntu-$(lsb_release -cs)
 
 # Set up the Docker daemon https://kubernetes.io/docs/setup/production-environment/container-runtimes/#docker
 cat > /etc/docker/daemon.json <<EOF
@@ -42,3 +42,8 @@ systemctl restart docker
 
 # Allow vagrant user to use docker commands directly
 usermod -a -G docker vagrant
+
+# Do not disable container runtime
+cp /etc/containerd/config.toml /etc/containerd/config.toml.bak
+sed -i 's/disabled_plugins.*/disabled_plugins = []/g' /etc/containerd/config.toml
+systemctl restart containerd
